@@ -19,13 +19,14 @@ object WordCount {
     val env = ExecutionEnvironment.getExecutionEnvironment
 
     // 从文件中读取数据
-    val inputPath = "D:\\Projects\\BigData\\FlinkTutorial\\src\\main\\resources\\hello.txt"
+    val inputPath = "H:\\flink\\FlinkTutorial\\src\\main\\resources\\hello.txt"
     val inputDataSet = env.readTextFile(inputPath)
 
-    // 分词之后做count
-    val wordCountDataSet = inputDataSet.flatMap(_.split(" "))
-      .map( (_, 1) )
+    val value: GroupedDataSet[(String, Int)] = inputDataSet.flatMap(_.split(" "))
+      .map((_, 1))
       .groupBy(0)
+    // 分词之后做count
+    val wordCountDataSet = value
       .sum(1)
 
     // 打印输出
